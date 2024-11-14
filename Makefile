@@ -31,3 +31,4 @@ run: venv
 .PHONY: clean
 clean:
 	rm -rf venv
+	rm -f cursor.txt

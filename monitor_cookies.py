@@ -7,6 +7,7 @@ import typing as t
 import os
 from flareio import FlareApiClient
 import time
+import json
 
 
 class Cookie(t.TypedDict):
@@ -36,13 +37,26 @@ class MonitorContext:
 def get_cursor() -> str | None:
     # TODO: Implement a method here that loads your cursor,
     # perhaps from a database.
-    print("Would load cursor from the database...")
-    return None
+    data: str = ""
+    with open("cursor.txt", "r", encoding="utf-8") as f:
+        data = f.read().strip()
+    if not data:
+        return None
+    return json.loads(data)["cursor"]
 
 
 def save_cursor(cursor: str) -> None:
     # TODO: Implement a method here that saves the cursor.
     print(f"Would save {cursor=}")
+    with open("cursor.txt", "w") as f:
+        f.write(
+            json.dumps(
+                {
+                    "cursor": cursor,
+                },
+            )
+        )
+        f.write("\n")
 
 
 def verify_cookie(cookie: Cookie) -> bool:
