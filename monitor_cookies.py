@@ -17,6 +17,10 @@ class Cookie(t.TypedDict):
     value: str
 
 
+class CursorData(t.TypedDict):
+    cursor: str
+
+
 @dataclasses.dataclass
 class MonitorContext:
     api_client: FlareApiClient
@@ -38,24 +42,22 @@ def get_cursor() -> str | None:
     # TODO: Implement a method here that loads your cursor,
     # perhaps from a database.
     data: str = ""
+    if not os.path.exists("cursor.txt"):
+        return None
     with open("cursor.txt", "r", encoding="utf-8") as f:
         data = f.read().strip()
     if not data:
         return None
-    return json.loads(data)["cursor"]
+    cursor_data: CursorData = json.loads(data)
+    return cursor_data["cursor"]
 
 
 def save_cursor(cursor: str) -> None:
     # TODO: Implement a method here that saves the cursor.
     print(f"Would save {cursor=}")
+    cursor_data: CursorData = CursorData(cursor=cursor)
     with open("cursor.txt", "w") as f:
-        f.write(
-            json.dumps(
-                {
-                    "cursor": cursor,
-                },
-            )
-        )
+        f.write(json.dumps(cursor_data))
         f.write("\n")
 
 
