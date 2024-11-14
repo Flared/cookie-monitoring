@@ -9,7 +9,6 @@ It implements a script that goes through the following steps:
 3. Revoke the ones that are still valid.
 4. Save the cursor for the next run.
 
-
 ## Simple Local Usage
 
 **1 - Export your Flare API Key and Tenant Id**
